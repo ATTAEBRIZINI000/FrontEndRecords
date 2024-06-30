@@ -1,9 +1,8 @@
-/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { createRecord } from "../services/apiService";
 import "./NewRecordForm.css"; // Import CSS file for NewRecordForm
 
-// eslint-disable-next-line react/prop-types
 const NewRecordForm = ({ setRecords }) => {
   const [form, setForm] = useState({
     artist: "",
@@ -38,11 +37,16 @@ const NewRecordForm = ({ setRecords }) => {
       return;
     }
 
-    setRecords((prevRecords) => {
-      return [...prevRecords, { id: prevRecords.length, ...form }];
-    });
-
-    navigate("/collections");
+    createRecord(form)
+      .then((response) => {
+        setRecords((prevRecords) => {
+          return [...prevRecords, response.data];
+        });
+        navigate("/collections");
+      })
+      .catch((error) => {
+        console.error("Error creating record:", error);
+      });
   };
 
   return (

@@ -18,16 +18,18 @@
 .button-container {
   display: flex;
   align-items: center;
+  justify-content: space-between; /* Ensure space between new button and category menu */
   margin-bottom: 20px;
 }
 
 .category-select {
   position: relative;
+  display: inline-block; /* Ensure the category menu is inline with the button */
 }
 
 .category-button {
-  background-color: #503b31;
-  color: #ffffff;
+  background-color: #ffcc00; /* Change to desired color */
+  color: #000000; /* Ensure text is readable */
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
@@ -40,7 +42,7 @@
   position: absolute;
   top: 100%;
   left: 0;
-  background-color: #503b31;
+  background-color: #ffcc00; /* Match the button color */
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   z-index: 1;
@@ -54,12 +56,12 @@
   display: block;
   width: 100%;
   padding: 10px 20px;
-  color: #ffffff;
+  color: #000000; /* Ensure text is readable */
   text-align: left;
   text-decoration: none;
   border: none;
   border-bottom: 1px solid #ffffff;
-  background-color: #503b31;
+  background-color: #ffcc00; /* Match the button color */
   cursor: pointer;
 }
 
@@ -68,7 +70,7 @@
 }
 
 .category-options.open .category-option:hover {
-  background-color: #5e4c42;
+  background-color: #e6b800; /* Slightly darker shade for hover */
 }
 
 .card-list {

@@ -35,12 +35,37 @@
   text-decoration: none;
 }
 
+.navbar-profile {
+  display: flex;
+  align-items: center;
+}
+
 .navbar-profile .profile-pic {
   width: 40px;
   height: 40px;
   border-radius: 50%;
   background-color: #fff;
   padding: 2px;
+  object-fit: cover;
+  margin-right: 0.5rem; /* Add margin to the right */
+}
+
+.logout-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.logout-icon {
+  width: 25px;
+  height: 25px;
+  object-fit: cover;
+}
+
+.auth-icon {
+  width: 25px;
+  height: 25px;
+  margin-right: 1rem;
   object-fit: cover;
 }
 
@@ -75,6 +100,10 @@
   .navbar-links a {
     margin: 1rem 0;
     text-align: center;
+  }
+
+  .navbar-profile {
+    margin-top: 1rem;
   }
 
   .navbar-toggle {

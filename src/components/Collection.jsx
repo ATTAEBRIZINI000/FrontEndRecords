@@ -1,11 +1,33 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, Route, Routes } from "react-router-dom";
 import RecordDetail from "./RecordDetail";
-import "./Collection.css"; // Import CSS file for Collection
+import { getAllRecords } from "../services/apiService";
+import "./Collection.css";
 
-const Collection = ({ records, setRecords }) => {
+const Collection = () => {
+  const [records, setRecords] = useState([]);
+
+  useEffect(() => {
+    const fetchRecords = async () => {
+      try {
+        const response = await getAllRecords();
+        setRecords(response.data);
+      } catch (error) {
+        console.error('Error fetching records:', error);
+      }
+    };
+
+    fetchRecords();
+  }, []);
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    const date = new Date(dateString);
+    return date.toLocaleDateString('fr-FR', options)
+      .replace(/ /g, ', '); // Remplacer les espaces par des virgules
+  };
+  
   return (
     <div className="collection">
       <Link to="/new-record" className="new-button-link">
@@ -20,12 +42,12 @@ const Collection = ({ records, setRecords }) => {
           >
             <div className="card">
               <div className="card-header">
-                <h3>{`${record.artist} - ${record.album} (${record.releaseDate})`}</h3>
-                <p>{`${record.label} - Released Date: ${record.releaseDate}`}</p>
+              <h3>{`${record.artist} - ${record.albumTitle} (${formatDate(record.date)})`}</h3>
+  <p>{`${record.label} - Released Date: ${formatDate(record.date)}`}</p>
               </div>
               <div className="card-body">
-                <p>Record Number: {record.recordNumber}</p>
-                <p>State of the Records: {record.recordState}</p>
+                <p>Record Number: {record.vinylsNumber}</p>
+                <p>State of the Records: {record.state}</p>
                 <p className="category">{record.category}</p>
               </div>
             </div>
@@ -34,10 +56,11 @@ const Collection = ({ records, setRecords }) => {
       </div>
 
       <Routes>
-        <Route
-          path="/record-detail/:id"
-          element={<RecordDetail records={records} setRecords={setRecords} />}
-        />
+      <Route
+  path="/record-detail/:id"
+  element={<RecordDetail records={records} setRecords={setRecords} />}
+/>
+
       </Routes>
     </div>
   );

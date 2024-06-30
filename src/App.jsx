@@ -1,5 +1,3 @@
-// App.jsx
-// eslint-disable-next-line no-unused-vars
 import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
@@ -7,10 +5,13 @@ import HomePage from "./components/HomePage";
 import Collection from "./components/Collection";
 import NewRecordForm from "./components/NewRecordForm";
 import Category from "./components/Category";
-import RecordDetail from "./components/RecordDetail"; // Import RecordDetail component
+import RecordDetail from "./components/RecordDetail";
+import UserProfile from "./components/UserProfil";
+import Login from "./components/Login";
+import Registration from "./components/Registration";
+import PrivateRoute from "./components/PrivateRoute"; // Import PrivateRoute
+import { AuthProvider } from "./contexts/AuthContext"; // Import AuthProvider
 import "./App.css";
-
-const Profile = () => <h1>Profile Page</h1>;
 
 function App() {
   const [records, setRecords] = useState([]);
@@ -24,25 +25,63 @@ function App() {
   };
 
   return (
-    <Router>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/collections" element={<Collection records={records} />} />
-        <Route
-          path="/new-record"
-          element={<NewRecordForm setRecords={setRecords} />}
-        />
-        <Route path="/categories" element={<Category records={records} />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route
-          path="/record-detail/:id"
-          element={
-            <RecordDetail records={records} updateRecord={updateRecord} />
-          }
-        />
-      </Routes>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route path="/login" element={<Login />} /> {/* Login route */}
+          <Route path="/register" element={<Registration />} /> {/* Registration route */}
+          <Route
+            path="/"
+            element={
+              <PrivateRoute>
+                <HomePage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/collections"
+            element={
+              <PrivateRoute>
+                <Collection records={records} />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/new-record"
+            element={
+              <PrivateRoute>
+                <NewRecordForm setRecords={setRecords} />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/categories"
+            element={
+              <PrivateRoute>
+                <Category records={records} />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <PrivateRoute>
+                <UserProfile />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/record-detail/:id"
+            element={
+              <PrivateRoute>
+                <RecordDetail records={records} setRecords={setRecords} />
+              </PrivateRoute>
+            }
+          />
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 }
 
